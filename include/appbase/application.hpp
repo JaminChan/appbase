@@ -93,7 +93,11 @@ namespace appbase {
 
          template<typename Plugin>
          Plugin* find_plugin()const {
+#ifdef WIN32
+			string name = boost::core::demangle(typeid(Plugin).name()).c_str()+6;
+#else
             string name = boost::core::demangle(typeid(Plugin).name());
+#endif
             return dynamic_cast<Plugin*>(find_plugin(name));
          }
 
@@ -184,7 +188,11 @@ namespace appbase {
    template<typename Impl>
    class plugin : public abstract_plugin {
       public:
-         plugin():_name(boost::core::demangle(typeid(Impl).name())){}
+#ifdef WIN32
+		 plugin() :_name(boost::core::demangle(typeid(Impl).name()).c_str()+6) {}
+#else
+		 plugin() :_name(boost::core::demangle(typeid(Impl).name())) {}
+#endif
          virtual ~plugin(){}
 
          virtual state get_state()const override         { return _state; }

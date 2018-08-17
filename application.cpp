@@ -59,8 +59,8 @@ bfs::path application::get_logging_conf() const {
 
 void application::startup() {
    try {
-      for (auto plugin : initialized_plugins)
-         plugin->startup();
+	   for (auto plugin : initialized_plugins)
+		  plugin->startup();
    } catch(...) {
       shutdown();
       throw;
